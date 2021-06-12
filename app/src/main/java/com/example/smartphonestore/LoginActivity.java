@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkLogin(String username, String password) {
-        User user = sqLiteUserHelper.getStudentByUsernameAndPassword(username, password);
+        User user = sqLiteUserHelper.getUserByUsernameAndPassword(username, password);
         if (user != null){
             Intent intent;
             if (user.isAdmin()){

@@ -59,11 +59,12 @@ public class HomeAdminFragment extends Fragment {
         etImage = view.findViewById(R.id.etImage);
         recyclerView = view.findViewById(R.id.recyclerView);
 
+        sqLiteSmartphoneHelper = new SQLiteSmartphoneHelper(view.getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerViewSmartphoneAdminAdapter = new RecyclerViewSmartphoneAdminAdapter(view.getContext());
+        smartphones = sqLiteSmartphoneHelper.getAll();
+        recyclerViewSmartphoneAdminAdapter.setSmartphones(smartphones);
         recyclerView.setAdapter(recyclerViewSmartphoneAdminAdapter);
-        sqLiteSmartphoneHelper = new SQLiteSmartphoneHelper(view.getContext());
-
 
         btAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +109,7 @@ public class HomeAdminFragment extends Fragment {
         inflater.inflate(R.menu.menu_search, menu);
         MenuItem menuItem = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+        searchView.setQueryHint("Search smartphone by name");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

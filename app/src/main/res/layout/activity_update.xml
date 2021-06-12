@@ -5,76 +5,109 @@
     android:layout_height="match_parent"
     tools:context=".UpdateActivity"
     android:orientation="vertical"
-    android:paddingHorizontal="15dp">
+    android:paddingHorizontal="15dp"
+    android:background="@color/back_ground">
     <TextView
         android:text="Update"
         android:textSize="30dp"
-        android:textColor="@color/black"
+        android:textColor="@color/purple"
+        android:textStyle="bold"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="1">
+        android:stretchColumns="1"
+        android:layout_marginTop="15dp">
         <TableRow>
             <TextView
                 android:text="ID:"
                 android:textSize="20dp"/>
             <EditText
                 android:id="@+id/etId"
-                android:editable="false"/>
+                android:editable="false"
+                android:background="@drawable/my_edit_text"
+                android:layout_marginLeft="5dp"
+                android:paddingLeft="15dp"
+                android:layout_height="40dp"/>
         </TableRow>
-        <TableRow>
+        <TableRow android:layout_marginTop="15dp">
             <TextView
                 android:text="Name:"
                 android:textSize="20dp"/>
             <EditText
-                android:id="@+id/etName"/>
+                android:id="@+id/etName"
+                android:background="@drawable/my_edit_text"
+                android:layout_marginLeft="5dp"
+                android:paddingLeft="15dp"
+                android:layout_height="40dp"/>
         </TableRow>
-        <TableRow>
+        <TableRow android:layout_marginTop="15dp">
             <TextView
                 android:text="Brand:"
                 android:textSize="20dp"/>
             <EditText
-                android:id="@+id/etBrand"/>
+                android:id="@+id/etBrand"
+                android:background="@drawable/my_edit_text"
+                android:layout_marginLeft="5dp"
+                android:paddingLeft="15dp"
+                android:layout_height="40dp"/>
         </TableRow>
-        <TableRow>
+        <TableRow android:layout_marginTop="15dp">
             <TextView
                 android:text="Chipset:"
                 android:textSize="20dp"/>
             <EditText
-                android:id="@+id/etChipset"/>
+                android:id="@+id/etChipset"
+                android:background="@drawable/my_edit_text"
+                android:layout_marginLeft="5dp"
+                android:paddingLeft="15dp"
+                android:layout_height="40dp"/>
         </TableRow>
-        <TableRow>
+        <TableRow android:layout_marginTop="15dp">
             <TextView
                 android:text="Ram:"
                 android:textSize="20dp"/>
             <EditText
-                android:id="@+id/etRam"/>
+                android:id="@+id/etRam"
+                android:background="@drawable/my_edit_text"
+                android:layout_marginLeft="5dp"
+                android:paddingLeft="15dp"
+                android:layout_height="40dp"/>
         </TableRow>
-        <TableRow>
+        <TableRow android:layout_marginTop="15dp">
             <TextView
                 android:text="Price:"
                 android:textSize="20dp"/>
             <EditText
                 android:id="@+id/etPrice"
-                android:inputType="number"/>
+                android:inputType="number"
+                android:background="@drawable/my_edit_text"
+                android:layout_marginLeft="5dp"
+                android:paddingLeft="15dp"
+                android:layout_height="40dp"/>
         </TableRow>
-        <TableRow>
+        <TableRow android:layout_marginTop="15dp">
             <TextView
                 android:text="Image:"
                 android:textSize="20dp"/>
             <EditText
-                android:id="@+id/etImage"/>
+                android:id="@+id/etImage"
+                android:background="@drawable/my_edit_text"
+                android:layout_marginLeft="5dp"
+                android:paddingLeft="15dp"
+                android:layout_height="40dp"/>
         </TableRow>
     </TableLayout>
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btUpdate"
         android:text="update"
+        android:textSize="20dp"
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/teal_700"/>
+        android:layout_marginTop="50dp"
+        android:background="@drawable/my_button"
+        android:textColor="@color/white"/>
 </LinearLayout>

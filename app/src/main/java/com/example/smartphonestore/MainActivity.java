@@ -2,21 +2,36 @@ package com.example.smartphonestore;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.smartphonestore.adapter.ViewPagerNavigationAdapter;
+import com.example.smartphonestore.fragment.CartFragment;
+import com.example.smartphonestore.fragment.HomeFragment;
+import com.example.smartphonestore.fragment.OrderFragment;
+import com.example.smartphonestore.fragment.SettingFragment;
+import com.example.smartphonestore.model.Cart;
+import com.example.smartphonestore.model.Item;
 import com.example.smartphonestore.model.User;
+import com.example.smartphonestore.sqlite.SQLiteCartHelper;
+import com.example.smartphonestore.sqlite.SQLiteItemHelper;
+import com.example.smartphonestore.sqlite.SQLiteOrderHelper;
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
-    private ViewPager viewPager;
-    private ViewPagerNavigationAdapter viewPagerNavigationAdapter;
     private User user;
+    private BadgeDrawable badge;
+    private List<Item> items;
+    private SQLiteItemHelper sqLiteItemHelper;
+    private SQLiteCartHelper sqLiteCartHelper;
+    private Cart cart;
+    private int quantity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,58 +39,50 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initView();
+        quantity = 0;
 
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
 
-        viewPagerNavigationAdapter = new ViewPagerNavigationAdapter(getSupportFragmentManager(), ViewPagerNavigationAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        viewPager.setAdapter(viewPagerNavigationAdapter);
-        viewPager.setOffscreenPageLimit(0);
+//        viewPagerNavigationAdapter = new ViewPagerNavigationAdapter(getSupportFragmentManager(), ViewPagerNavigationAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+//        viewPager.setAdapter(viewPagerNavigationAdapter);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+        badge = bottomNavigationView.getOrCreateBadge(R.id.cart);
+        badge.setVisible(false);
+
+        sqLiteItemHelper = new SQLiteItemHelper(this);
+        sqLiteCartHelper = new SQLiteCartHelper(this);
+        cart = sqLiteCartHelper.getCartByUserId(user.getId());
+        if (cart != null){
+            items = sqLiteItemHelper.getItemByCartId(cart.getId());
+            for (Item item : items) {
+                quantity += item.getQuantity();
+            }
+            if (quantity > 0) {
+                badge.setVisible(true);
+                badge.setNumber(quantity);
+            }
+            else
+                badge.setVisible(false);
+        }
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment selectedFragment = null;
                 switch (item.getItemId()){
-                    case R.id.home: viewPager.setCurrentItem(0);
+                    case R.id.home: selectedFragment = new HomeFragment();
                         break;
-                    case R.id.cart: viewPager.setCurrentItem(1);
+                    case R.id.cart: selectedFragment = new CartFragment();
                         break;
-                    case R.id.order: viewPager.setCurrentItem(2);
+                    case R.id.order: selectedFragment = new OrderFragment();
                         break;
-                    case R.id.setting: viewPager.setCurrentItem(3);
+                    case R.id.setting: selectedFragment = new SettingFragment();
                         break;
                 }
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
                 return true;
-            }
-        });
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                switch (position){
-                    case 1:
-                        bottomNavigationView.getMenu().findItem(R.id.cart).setChecked(true);
-                        break;
-                    case 2:
-                        bottomNavigationView.getMenu().findItem(R.id.order).setChecked(true);
-                        break;
-                    case 3:
-                        bottomNavigationView.getMenu().findItem(R.id.setting).setChecked(true);
-                        break;
-                    default:
-                        bottomNavigationView.getMenu().findItem(R.id.home).setChecked(true);
-                        break;
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
             }
         });
     }
@@ -84,8 +91,11 @@ public class MainActivity extends AppCompatActivity {
         return user;
     }
 
+    public BadgeDrawable getBadge() {
+        return badge;
+    }
+
     private void initView() {
         bottomNavigationView = findViewById(R.id.navigation);
-        viewPager = findViewById(R.id.viewPager);
     }
 }

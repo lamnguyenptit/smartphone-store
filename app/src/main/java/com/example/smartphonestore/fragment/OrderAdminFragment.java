@@ -14,6 +14,7 @@ import com.example.smartphonestore.AdminActivity;
 import com.example.smartphonestore.MainActivity;
 import com.example.smartphonestore.R;
 import com.example.smartphonestore.adapter.RecyclerViewOrderAdapter;
+import com.example.smartphonestore.adapter.RecyclerViewOrderAdminAdapter;
 import com.example.smartphonestore.model.Order;
 import com.example.smartphonestore.model.User;
 import com.example.smartphonestore.sqlite.SQLiteOrderHelper;
@@ -25,7 +26,7 @@ public class OrderAdminFragment extends Fragment {
     private View view;
     private AdminActivity adminActivity;
     private User user;
-    private RecyclerViewOrderAdapter recyclerViewOrderAdapter;
+    private RecyclerViewOrderAdminAdapter recyclerViewOrderAdminAdapter;
     private SQLiteOrderHelper sqLiteOrderHelper;
     private List<Order> orders;
 
@@ -45,9 +46,9 @@ public class OrderAdminFragment extends Fragment {
         orders = sqLiteOrderHelper.getAllOrder();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerViewOrderAdapter = new RecyclerViewOrderAdapter(view.getContext());
-        recyclerViewOrderAdapter.setOrders(orders);
-        recyclerView.setAdapter(recyclerViewOrderAdapter);
+        recyclerViewOrderAdminAdapter = new RecyclerViewOrderAdminAdapter(view.getContext());
+        recyclerViewOrderAdminAdapter.setOrders(orders);
+        recyclerView.setAdapter(recyclerViewOrderAdminAdapter);
 
         return view;
     }

@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.CartFragment">
+    tools:context=".fragment.CartFragment"
+    android:background="@color/back_ground">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,7 +13,8 @@
         <TextView
             android:text="My Cart"
             android:textSize="30dp"
-            android:textColor="@color/black"
+            android:textColor="@color/purple"
+            android:textStyle="bold"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -34,7 +36,8 @@
             android:layout_gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginRight="20dp"
+            android:backgroundTint="@color/green"
+            android:textColor="@color/white"/>
     </LinearLayout>
 </FrameLayout>

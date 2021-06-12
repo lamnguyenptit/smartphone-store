@@ -2,6 +2,7 @@ package com.example.smartphonestore;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,46 +12,46 @@ import android.widget.Toast;
 import com.example.smartphonestore.model.User;
 import com.example.smartphonestore.sqlite.SQLiteUserHelper;
 
-public class RegisterActivity extends AppCompatActivity {
-    private EditText etUsername, etPassword, etPhone, etAddress;
-    private Button btRegister;
+public class EditProfileActivity extends AppCompatActivity {
+    private EditText etUsername, etPhone, etAddress;
+    private Button btUpdate;
     private SQLiteUserHelper sqLiteUserHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_edit_profile);
 
         initView();
-
+        Intent intent = getIntent();
         sqLiteUserHelper = new SQLiteUserHelper(getApplicationContext());
+        User user = (User) intent.getSerializableExtra("user");
 
-        btRegister.setOnClickListener(new View.OnClickListener() {
+        etUsername.setText(user.getUsername());
+        etPhone.setText(user.getPhone());
+        etAddress.setText(user.getAddress());
+
+        btUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User user = new User();
                 user.setUsername(etUsername.getText().toString());
-                user.setPassword(etPassword.getText().toString());
                 user.setPhone(etPhone.getText().toString());
                 user.setAddress(etAddress.getText().toString());
                 if (sqLiteUserHelper.getUserByUsername(user.getUsername()) == null){
-                    sqLiteUserHelper.addUser(user);
-                    Toast.makeText(RegisterActivity.this, "Register success !", Toast.LENGTH_SHORT).show();
+                    sqLiteUserHelper.updateUser(user);
+                    Toast.makeText(EditProfileActivity.this, "Update success !", Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 else
-                    Toast.makeText(RegisterActivity.this, "This username has already existed !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProfileActivity.this, "This username has already existed !", Toast.LENGTH_SHORT).show();
             }
         });
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void initView() {
         etUsername = findViewById(R.id.etUsername);
-        etPassword = findViewById(R.id.etPassword);
         etPhone = findViewById(R.id.etPhone);
         etAddress = findViewById(R.id.etAddress);
-        btRegister = findViewById(R.id.btRegister);
+        btUpdate = findViewById(R.id.btUpdate);
     }
 }

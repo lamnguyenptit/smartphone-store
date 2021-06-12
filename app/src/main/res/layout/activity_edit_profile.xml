@@ -6,14 +6,14 @@
     android:background="@color/back_ground"
     android:orientation="vertical"
     android:paddingHorizontal="20dp"
-    tools:context=".RegisterActivity">
+    tools:context=".EditProfileActivity">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"
-        android:textSize="50dp"
+        android:text="Edit profile"
         android:textColor="@color/purple"
         android:textStyle="bold"
+        android:textSize="50dp"
         android:layout_marginTop="50dp"
         android:layout_gravity="center"/>
 
@@ -27,19 +27,6 @@
         android:background="@drawable/my_edit_text"
         android:paddingLeft="15dp"
         android:drawableStart="@drawable/ic_person"
-        android:drawablePadding="10dp"/>
-
-    <EditText
-        android:id="@+id/etPassword"
-        android:hint="Enter password"
-        android:textSize="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/my_edit_text"
-        android:inputType="textPassword"
-        android:paddingLeft="15dp"
-        android:drawableStart="@drawable/ic_lock"
         android:drawablePadding="10dp"/>
 
     <EditText
@@ -68,12 +55,12 @@
         android:drawablePadding="10dp"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btRegister"
+        android:id="@+id/btUpdate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:background="@drawable/my_button"
-        android:text="register"
+        android:text="update"
         android:textSize="20dp"
         android:textColor="@color/white"/>
 </LinearLayout>

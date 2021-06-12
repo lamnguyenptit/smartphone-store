@@ -14,6 +14,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.smartphonestore.AdminActivity;
+import com.example.smartphonestore.ChangePasswordActivity;
+import com.example.smartphonestore.EditProfileActivity;
 import com.example.smartphonestore.LoginActivity;
 import com.example.smartphonestore.MainActivity;
 import com.example.smartphonestore.R;
@@ -25,7 +27,7 @@ public class SettingAdminFragment extends Fragment {
     private TextView tvUsername;
     private ListView listView;
     private ArrayAdapter<String> arrayAdapter;
-    private String[] list = {"Setting", "Change password", "Help and support", "Logout"};
+    private String[] list = {"Edit profile", "Change password", "Help and support", "Logout"};
     private View view;
     private User user;
     private AdminActivity adminActivity;
@@ -44,12 +46,24 @@ public class SettingAdminFragment extends Fragment {
         listView.setAdapter(arrayAdapter);
 
         adminActivity = (AdminActivity) getActivity();
-        tvUsername.setText(adminActivity.getUser().getUsername());
+        user = adminActivity.getUser();
+        tvUsername.setText(user.getUsername());
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent;
                 switch (position){
+                    case 0:
+                        intent = new Intent(view.getContext(), EditProfileActivity.class);
+                        intent.putExtra("user", user);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        intent = new Intent(view.getContext(), ChangePasswordActivity.class);
+                        intent.putExtra("user", user);
+                        startActivity(intent);
+                        break;
                     case 3:
                         startActivity(new Intent(view.getContext(), LoginActivity.class));
                         break;

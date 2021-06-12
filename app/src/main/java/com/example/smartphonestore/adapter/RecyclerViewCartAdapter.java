@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.example.smartphonestore.model.Smartphone;
 import com.example.smartphonestore.sqlite.SQLiteCartHelper;
 import com.example.smartphonestore.sqlite.SQLiteItemHelper;
 import com.example.smartphonestore.sqlite.SQLiteSmartphoneHelper;
+import com.google.android.material.badge.BadgeDrawable;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -33,6 +35,8 @@ public class RecyclerViewCartAdapter  extends RecyclerView.Adapter<RecyclerViewC
     private SQLiteCartHelper sqLiteCartHelper;
     private Cart cart;
     private double totalCost;
+    private TextView tvTotalCost;
+    private BadgeDrawable badge;
 
     public RecyclerViewCartAdapter(Context context) {
         this.context = context;
@@ -42,9 +46,17 @@ public class RecyclerViewCartAdapter  extends RecyclerView.Adapter<RecyclerViewC
         sqLiteCartHelper = new SQLiteCartHelper(context);
     }
 
+    public void setBadge(BadgeDrawable badge) {
+        this.badge = badge;
+    }
+
     public void setItems(List<Item> items) {
         this.items = items;
         notifyDataSetChanged();
+    }
+
+    public void setTvTotalCost(TextView tvTotalCost) {
+        this.tvTotalCost = tvTotalCost;
     }
 
     @NonNull
@@ -68,6 +80,7 @@ public class RecyclerViewCartAdapter  extends RecyclerView.Adapter<RecyclerViewC
         }catch (Exception e){
             e.printStackTrace();
         }
+
         for (Item item : items) {
             smartphone = sqLiteSmartphoneHelper.getSmartphoneById(item.getSmartphoneId());
             totalCost += smartphone.getPrice() * item.getQuantity();
@@ -78,17 +91,38 @@ public class RecyclerViewCartAdapter  extends RecyclerView.Adapter<RecyclerViewC
         holder.ivMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                item = items.get(position);
                 int quantity = item.getQuantity();
                 if (quantity > 1){
-                    quantity--;
-                    item.setQuantity(quantity);
+                    item.setQuantity(--quantity);
                     sqLiteItemHelper.updateItemQuantity(item);
                     holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
+                    smartphone = sqLiteSmartphoneHelper.getSmartphoneById(item.getSmartphoneId());
+                    totalCost = totalCost - smartphone.getPrice();
+                    tvTotalCost.setText("Total cost: $"+ totalCost);
                 }
                 else {
+                    smartphone = sqLiteSmartphoneHelper.getSmartphoneById(item.getSmartphoneId());
                     sqLiteItemHelper.deleteItemById(item.getId());
                     items = sqLiteItemHelper.getItemByCartId(cartId);
+                    totalCost = totalCost - smartphone.getPrice();
+                    tvTotalCost.setText("Total cost: $" + totalCost);
                     notifyDataSetChanged();
+                }
+
+                if (badge.isVisible()){
+                    quantity = 0;
+                    List<Item> items;
+                    items = sqLiteItemHelper.getItemByCartId(cart.getId());
+                    for (Item item : items) {
+                        quantity += item.getQuantity();
+                    }
+                    if (quantity > 0) {
+                        badge.setVisible(true);
+                        badge.setNumber(quantity);
+                    }
+                    else
+                        badge.setVisible(false);
                 }
             }
         });
@@ -96,14 +130,31 @@ public class RecyclerViewCartAdapter  extends RecyclerView.Adapter<RecyclerViewC
         holder.ivPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                item = items.get(position);
                 int quantity = item.getQuantity();
-                quantity++;
-                item.setQuantity(quantity);
+                item.setQuantity(++quantity);
                 sqLiteItemHelper.updateItemQuantity(item);
                 holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
+                smartphone = sqLiteSmartphoneHelper.getSmartphoneById(item.getSmartphoneId());
+                totalCost += smartphone.getPrice();
+                tvTotalCost.setText("Total cost: $" + totalCost);
+
+                if (badge.isVisible()){
+                    quantity = 0;
+                    List<Item> items;
+                    items = sqLiteItemHelper.getItemByCartId(cart.getId());
+                    for (Item item : items) {
+                        quantity += item.getQuantity();
+                    }
+                    if (quantity > 0) {
+                        badge.setVisible(true);
+                        badge.setNumber(quantity);
+                    }
+                    else
+                        badge.setVisible(false);
+                }
             }
         });
-
     }
 
     @Override
@@ -115,7 +166,8 @@ public class RecyclerViewCartAdapter  extends RecyclerView.Adapter<RecyclerViewC
 
     public class CartViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvName, tvPrice, tvQuantity;
-        private final ImageView image, ivMinus, ivPlus;
+        private final ImageView image;
+        private final ImageButton ivMinus, ivPlus;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);

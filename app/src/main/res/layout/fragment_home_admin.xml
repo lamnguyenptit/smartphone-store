@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.HomeAdminFragment">
+    tools:context=".fragment.HomeAdminFragment"
+    android:background="@color/back_ground">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,55 +13,81 @@
         <TextView
             android:text="Smartphone"
             android:textSize="30dp"
-            android:textColor="@color/black"
+            android:textColor="@color/purple"
+            android:textStyle="bold"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="1">
+            android:stretchColumns="1"
+            android:layout_marginTop="15dp">
             <TableRow>
                 <TextView
                     android:text="Name:"
                     android:textSize="20dp"/>
                 <EditText
-                    android:id="@+id/etName"/>
+                    android:id="@+id/etName"
+                    android:background="@drawable/my_edit_text"
+                    android:layout_marginLeft="5dp"
+                    android:paddingLeft="15dp"
+                    android:layout_height="40dp"/>
             </TableRow>
-            <TableRow>
+            <TableRow android:layout_marginTop="15dp">
                 <TextView
                     android:text="Brand:"
                     android:textSize="20dp"/>
                 <EditText
-                    android:id="@+id/etBrand"/>
+                    android:id="@+id/etBrand"
+                    android:background="@drawable/my_edit_text"
+                    android:layout_marginLeft="5dp"
+                    android:paddingLeft="15dp"
+                    android:layout_height="40dp"/>
             </TableRow>
-            <TableRow>
+            <TableRow android:layout_marginTop="15dp">
                 <TextView
                     android:text="Chipset:"
                     android:textSize="20dp"/>
                 <EditText
-                    android:id="@+id/etChipset"/>
+                    android:id="@+id/etChipset"
+                    android:background="@drawable/my_edit_text"
+                    android:layout_marginLeft="5dp"
+                    android:paddingLeft="15dp"
+                    android:layout_height="40dp"/>
             </TableRow>
-            <TableRow>
+            <TableRow android:layout_marginTop="15dp">
                 <TextView
                     android:text="Ram:"
                     android:textSize="20dp"/>
                 <EditText
-                    android:id="@+id/etRam"/>
+                    android:id="@+id/etRam"
+                    android:background="@drawable/my_edit_text"
+                    android:layout_marginLeft="5dp"
+                    android:paddingLeft="15dp"
+                    android:layout_height="40dp"/>
             </TableRow>
-            <TableRow>
+            <TableRow android:layout_marginTop="15dp">
                 <TextView
                     android:text="Price:"
                     android:textSize="20dp"/>
                 <EditText
-                    android:id="@+id/etPrice"/>
+                    android:id="@+id/etPrice"
+                    android:background="@drawable/my_edit_text"
+                    android:layout_marginLeft="5dp"
+                    android:paddingLeft="15dp"
+                    android:layout_height="40dp"/>
             </TableRow>
-            <TableRow>
+            <TableRow android:layout_marginTop="15dp">
                 <TextView
                     android:text="Image:"
                     android:textSize="20dp"/>
                 <EditText
-                    android:id="@+id/etImage"/>
+                    android:id="@+id/etImage"
+                    android:background="@drawable/my_edit_text"
+                    android:layout_marginLeft="5dp"
+                    android:paddingLeft="15dp"
+                    android:layout_height="40dp"/>
             </TableRow>
         </TableLayout>
         <LinearLayout
@@ -75,13 +102,14 @@
                 android:layout_marginRight="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/design_default_color_secondary_variant"/>
+                android:backgroundTint="@color/purple"/>
             <Button
                 android:id="@+id/btGetAll"
                 android:text="get all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="80dp"/>
+                android:layout_marginLeft="80dp"
+                android:backgroundTint="@color/purple"/>
         </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

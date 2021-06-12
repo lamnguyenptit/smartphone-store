@@ -73,9 +73,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return "id: " + id +
-                "\ntotalCost: " + totalCost +
-                "\ndate: " + date +
-                "\nuserId: " + userId;
+        return "\ndate: " + date +
+                "\ntotalCost: " + totalCost;
     }
 }

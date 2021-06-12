@@ -12,8 +12,11 @@
         android:layout_above="@id/navigation"/>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
+        app:itemIconTint="@color/color_navigation"
+        app:itemTextColor="@color/color_navigation"
         app:menu="@menu/menu_navigation_admin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:background="@color/purple"/>
 </RelativeLayout>

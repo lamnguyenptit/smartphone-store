@@ -82,4 +82,20 @@ public class SQLiteOrderHelper extends SQLiteOpenHelper {
         resultSet.close();
         return orders;
     }
+
+    public int updateOrder(Order order){
+        SQLiteDatabase statement = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("is_done", String.valueOf(order.isDone()));
+        String whereClause = "id = ?";
+        String[] whereArgs = {String.valueOf(order.getId())};
+        return statement.update("tbl_order", contentValues, whereClause, whereArgs);
+    }
+
+    public int deleteOrderById(int id){
+        String whereClause = "id = ?";
+        String[] whereArgs = {String.valueOf(id)};
+        SQLiteDatabase statement = getWritableDatabase();
+        return statement.delete("tbl_order", whereClause, whereArgs);
+    }
 }

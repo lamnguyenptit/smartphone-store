@@ -25,6 +25,8 @@ import com.example.smartphonestore.sqlite.SQLiteCartHelper;
 import com.example.smartphonestore.sqlite.SQLiteItemHelper;
 import com.example.smartphonestore.sqlite.SQLiteOrderHelper;
 import com.example.smartphonestore.sqlite.SQLiteSmartphoneHelper;
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.type.Color;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -48,7 +50,9 @@ public class CartFragment extends Fragment {
     private Smartphone smartphone;
     private MainActivity mainActivity;
     private double totalCost;
+    private int quantity;
     private Order order;
+    private BadgeDrawable badge;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,7 @@ public class CartFragment extends Fragment {
 
         mainActivity = (MainActivity) getActivity();
         user = mainActivity.getUser();
+        badge = mainActivity.getBadge();
 
         sqLiteItemHelper = new SQLiteItemHelper(view.getContext());
         sqLiteCartHelper = new SQLiteCartHelper(view.getContext());
@@ -69,26 +74,43 @@ public class CartFragment extends Fragment {
         sqLiteOrderHelper = new SQLiteOrderHelper(view.getContext());
 
         cart = sqLiteCartHelper.getCartByUserId(user.getId());
-        if (cart == null){
+
+        if (cart == null || cart.getTotalCost() == 0){
             tvTotalCost.setText("Cart is empty");
             btCheckOut.setEnabled(false);
-        }
-        else {
+            btCheckOut.setBackgroundColor(Color.RED_FIELD_NUMBER);
+        } else {
             totalCost = 0;
+            quantity = 0;
             items = sqLiteItemHelper.getItemByCartId(cart.getId());
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
             recyclerViewCartAdapter = new RecyclerViewCartAdapter(view.getContext());
             recyclerViewCartAdapter.setItems(items);
+            recyclerViewCartAdapter.setBadge(badge);
             recyclerView.setAdapter(recyclerViewCartAdapter);
 
             for (Item item : items) {
                 smartphone = sqLiteSmartphoneHelper.getSmartphoneById(item.getSmartphoneId());
                 totalCost += smartphone.getPrice() * item.getQuantity();
+                quantity += item.getQuantity();
             }
             cart.setTotalCost(totalCost);
             sqLiteCartHelper.updateCart(cart);
-            tvTotalCost.setText("Total cost: " + String.valueOf(totalCost));
+            tvTotalCost.setText("Total cost: $" + totalCost);
         }
+
+        try {
+            recyclerViewCartAdapter.setTvTotalCost(tvTotalCost);
+        } catch (Exception e){
+            System.out.println(e);
+        }
+
+        if (quantity > 0) {
+            badge.setVisible(true);
+            badge.setNumber(quantity);
+        }
+        else
+            badge.setVisible(false);
 
         btCheckOut.setOnClickListener(new View.OnClickListener() {
             @Override

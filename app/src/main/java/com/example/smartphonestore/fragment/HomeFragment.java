@@ -24,6 +24,7 @@ import com.example.smartphonestore.adapter.RecyclerViewSmartphoneAdminAdapter;
 import com.example.smartphonestore.model.Smartphone;
 import com.example.smartphonestore.model.User;
 import com.example.smartphonestore.sqlite.SQLiteSmartphoneHelper;
+import com.google.android.material.badge.BadgeDrawable;
 
 import java.text.ParseException;
 import java.util.List;
@@ -36,6 +37,7 @@ public class HomeFragment extends Fragment{
     private List<Smartphone> smartphones;
     private MainActivity mainActivity;
     private User user;
+    private BadgeDrawable badge;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class HomeFragment extends Fragment{
         recyclerView = view.findViewById(R.id.recyclerView);
         mainActivity = (MainActivity) getActivity();
         user = mainActivity.getUser();
+        badge = mainActivity.getBadge();
 
         sqLiteSmartphoneHelper = new SQLiteSmartphoneHelper(view.getContext());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(view.getContext(), 2);
@@ -56,6 +59,7 @@ public class HomeFragment extends Fragment{
         recyclerViewSmartphoneAdapter = new RecyclerViewSmartphoneAdapter(view.getContext());
         recyclerViewSmartphoneAdapter.setSmartphones(getAll());
         recyclerViewSmartphoneAdapter.setUser(user);
+        recyclerViewSmartphoneAdapter.setBadge(badge);
         recyclerView.setAdapter(recyclerViewSmartphoneAdapter);
 
         return view;
